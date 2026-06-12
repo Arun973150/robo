@@ -1,0 +1,8 @@
+# ESP-IDF Partition Table
+# Single-app (factory) layout for 8MB flash - Otto robot N8R2
+# 4MB app fits the ~3.5MB firmware with headroom; ~3.9MB assets. No OTA (re-flash via USB).
+# Name,   Type, SubType, Offset,   Size,    Flags
+nvs,      data, nvs,     0x9000,   0x6000,
+phy_init, data, phy,     0xf000,   0x1000,
+factory,  app,  factory, 0x10000,  0x400000,
+assets,   data, spiffs,  0x410000, 0x3F0000,
