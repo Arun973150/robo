@@ -1,0 +1,33 @@
+name: Build Otto (N8R2)
+
+on:
+  push:
+    branches:
+      - otto-n8r2
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build otto-robot for ESP32-S3 N8R2
+    runs-on: ubuntu-latest
+    container:
+      image: espressif/idf:v5.5.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build otto-robot
+        shell: bash
+        run: |
+          source $IDF_PATH/export.sh
+          python scripts/release.py otto-robot --name otto-robot
+
+      - name: Upload merged firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: otto-n8r2-firmware
+          path: build/merged-binary.bin
+          if-no-files-found: error
